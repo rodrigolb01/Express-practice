@@ -72,15 +72,31 @@ router.param("id", (req, res, next, id) => {
 })
 
 router.post('/employees/', (req, res) => {
-    //if isvalid
-    console.log("adding:");
-    employees.push(
-        {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            value: req.body.val
-        })
-    res.send(`first name: ${req.body.firstName}, lastName: ${req.body.lastName}, value: ${req.body.val}`);
+
+    console.log(`imput data: ${req.body.firstName}, ${req.body.lastName}, ${req.body.val}`);
+    // const isValid = req.body.firstName != "undefined" && req.body.lastName != undefined && req.body.val != undefined;
+    const isValid = false;
+    console.log(`valid request: ${isValid}`);
+    if(isValid == true)
+    {
+        console.log("adding:");
+        employees.push(
+            {
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                value: req.body.val
+            })
+        res.redirect('/payments/employees');
+    }
+    else
+    {
+        console.log('required fields are empty');
+        res.render('paycheck_employees_add', {
+             firstName : req.body.firstName,
+             lastName: req.body.lastName,
+             val: req.body.val
+            });
+    }
 })
 
 router.get('/employees/new', (req, res) => {
